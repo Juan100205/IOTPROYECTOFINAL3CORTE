@@ -2,6 +2,10 @@
 
 [Inicio](Home)
 
+0. [Plan del Challenge #3 (en curso)](0.-Plan-del-Challenge-3)
+
+0. [Plan del Challenge #3 (en curso)](0.-Plan-del-Challenge-3)
+
 1. [Resumen general](1.-Resumen-General): motivación, justificación y estructura
 2. [Solución propuesta](2.-Solución-Propuesta)
    - [2.1 Restricciones de diseño](2.1.-Restricciones-de-Diseño)

@@ -7,6 +7,8 @@ Prototipo IoT de bajo costo basado en ESP32 que monitorea la disponibilidad de a
 
 > *Abstract.* WaterGuard v8 is a low-cost ESP32 IoT prototype that fuses redundant water-level sensing (ultrasonic + hydrostatic) with weather variables to compute a Dalton-based potential-evaporation index and a Water Risk Index. It raises on-site alarms and serves a WLAN-restricted embedded web dashboard (no MQTT), with sensing done in ISRs and FreeRTOS tasks.
 
+> 🚧 **Challenge #3 en curso:** ver el [plan de trabajo v8 → v9](0.-Plan-del-Challenge-3).
+
 ## Contenido
 
 1. [Resumen general](1.-Resumen-General): motivación, justificación y estructura

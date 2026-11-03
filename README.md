@@ -7,6 +7,8 @@ Sistema IoT de monitoreo de disponibilidad y escasez de agua en puntos críticos
 
 > 🚧 **Tercer corte (Challenge #3) — en desarrollo.** Este repositorio parte de la línea base del segundo corte ([LeMarsito02/IOTPROYECTOFINAL2CORTE](https://github.com/LeMarsito02/IOTPROYECTOFINAL2CORTE)): firmware v7/v8, imágenes y la wiki completa, que se conserva en la carpeta [`wiki/`](wiki/Home.md) como punto de partida para la documentación del tercer corte.
 
+> 📝 **Actas de reunión en PDF:** se generan desde la wiki con `python scripts/actas_a_pdf.py` (requiere `pip install markdown` y Chrome o Edge) y quedan en [`docs/actas/`](docs/actas/).
+
 > 📖 **¿Quieres profundizar?** La documentación completa —restricciones de diseño, arquitectura, diagramas UML, esquemáticos, estándares aplicados, modelo de negocio, protocolo de pruebas, declaración de uso de IA y el análisis offline con K-Means— está en la **[Wiki del repositorio](../../wiki)**.
 
 ---

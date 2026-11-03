@@ -2,6 +2,8 @@
 # Se conserva solo en local; en la wiki se citan por DOI/URL.
 referencias/
 *.pdf
+# Excepcion: actas de reunion exportadas (scripts/actas_a_pdf.py)
+!docs/actas/*.pdf
 *.xlsx
 *.xls
 

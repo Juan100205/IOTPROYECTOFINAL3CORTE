@@ -1,0 +1,21 @@
+#cloud-config
+# WaterGuard v9 - Gateway IoT (Raspberry Pi). Se aplica solo en el PRIMER arranque.
+hostname: waterguard-gw
+timezone: America/Bogota
+keyboard:
+  model: pc105
+  layout: latam
+ssh_pwauth: true
+users:
+- name: waterguard
+  gecos: WaterGuard Gateway
+  groups: users,adm,sudo,netdev,video,plugdev,dialout,gpio,i2c,spi
+  shell: /bin/bash
+  lock_passwd: false
+  passwd: HASH_DE_LA_CLAVE   # genera con: openssl passwd -6 "tu-clave"
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  ssh_authorized_keys:
+  - TU_LLAVE_PUBLICA_SSH   # contenido de ~/.ssh/id_ed25519.pub
+enable_ssh: true
+runcmd:
+- [ bash, /boot/firmware/waterguard/instalar.sh ]

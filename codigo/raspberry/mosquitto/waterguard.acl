@@ -1,0 +1,7 @@
+# El nodo solo publica/lee sus propios topicos
+user nodo1
+topic readwrite waterguard/nodo1/#
+
+# El gateway ve todos los nodos
+user gateway
+topic readwrite waterguard/#

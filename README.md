@@ -1,32 +1,90 @@
-# 💧 WaterGuard v8
-Sistema IoT de monitoreo de disponibilidad y escasez de agua en puntos críticos de almacenamiento, pensado para la región Sabana Centro (Cundinamarca) frente al Fenómeno de El Niño. Basado en **ESP32**, combina nivel de agua (con redundancia ultrasónica e hidrostática), temperatura, humedad, radiación y presión para calcular un **Índice de Riesgo Hídrico (IRH)** y un **índice de evaporación potencial** en tiempo real. Detecta anomalías y reglas de fusión multisensor, y alerta de dos formas: **in situ** (LEDs, buzzer, pantalla OLED y botón físico) y en un **tablero de control web embebido**, accesible solo desde la WLAN de la zona.
+# 💧 WaterGuard v9
+Sistema IoT de bajo costo para monitorear la disponibilidad y escasez de agua en puntos críticos de almacenamiento de la región Sabana Centro (Cundinamarca) frente al Fenómeno de El Niño. Un nodo **ESP32** mide el nivel del agua (con redundancia ultrasónica e hidrostática), la temperatura del agua y del aire, la humedad, la radiación y la presión; calcula un **Índice de Riesgo Hídrico (IRH)** y un **índice de evaporación potencial**, y fusiona las señales para generar alertas válidas. Los datos viajan por **MQTT** a un **Gateway IoT en Raspberry Pi**, que los guarda en **SQLite**, los procesa y los reenvía por MQTT a **LeMarTek Cloud for IoT**, la plataforma en la nube del equipo. Un **módulo de IA con Claude (Anthropic)** predice cuándo el tanque llegará al nivel crítico, detecta descensos anómalos y recomienda acciones a las autoridades.
+
+Las alertas llegan en tres niveles:
+- **In situ:** LEDs, buzzer, pantalla OLED y botón para silenciar.
+- **Tablero local:** servidor web embebido en el ESP32, dentro de la WLAN de la zona, con login.
+- **Tablero global:** LeMarTek Cloud (`https://iot.lemartek.cloud`), accesible desde cualquier parte de Colombia solo para usuarios autorizados, con notificaciones y control remoto de la alarma.
 
 **Universidad de La Sabana** — Facultad de Ingeniería, Ingeniería Informática
-**Curso:** IoT (Internet of Things) — 2026-2
+**Curso:** IoT (Internet of Things) — 2026-2 · **Challenge #3**
 **Integrantes:** Juan José Riaño Zabaleta · Santiago Peña Beltrán
 
-> 🚧 **Tercer corte (Challenge #3) — en desarrollo.** Este repositorio parte de la línea base del segundo corte ([LeMarsito02/IOTPROYECTOFINAL2CORTE](https://github.com/LeMarsito02/IOTPROYECTOFINAL2CORTE)): firmware v7/v8, imágenes y la wiki completa, que se conserva en la carpeta [`wiki/`](wiki/Home.md) como punto de partida para la documentación del tercer corte.
+> 📖 **¿Quieres profundizar?** Restricciones de diseño, arquitectura, diagramas UML, esquemáticos, estándares, modelo de negocio, protocolo de pruebas y la declaración de uso de IA están en la **[Wiki del repositorio](../../wiki)** (copia en [`wiki/`](wiki/Home.md)).
 
 > 📝 **Actas de reunión en PDF:** se generan desde la wiki con `python codigo/scripts/actas_a_pdf.py` (requiere `pip install markdown` y Chrome o Edge) y quedan en [`docs/actas/`](docs/actas/).
 
-> 📖 **¿Quieres profundizar?** La documentación completa —restricciones de diseño, arquitectura, diagramas UML, esquemáticos, estándares aplicados, modelo de negocio, protocolo de pruebas, declaración de uso de IA y el análisis offline con K-Means— está en la **[Wiki del repositorio](../../wiki)**.
+---
+
+## 🔄 De la v8 a la v9 (Challenge #3)
+
+El segundo corte resolvía la vigilancia dentro de la WLAN de la Alcaldía, sin MQTT. El tercero exige llevar los datos a la nube pasando por un gateway con base de datos local, y sumar un módulo de IA.
+
+| Aspecto | v8 (segundo corte) | v9 (tercer corte) |
+|---|---|---|
+| Arquitectura | Nodo ESP32 solo | Nodo ESP32 → Gateway Raspberry Pi → nube |
+| Comunicación | HTTP local | **MQTT** nodo→gateway (Mosquitto) y gateway→nube (MQTT sobre WebSockets TLS) |
+| Almacenamiento | 15 min en RAM | **SQLite** en el gateway (modo WAL), con reenvío diferido si se cae internet |
+| Tablero | Solo local (ESP32) | Local (ESP32) + global (LeMarTek Cloud, ThingsBoard) |
+| Notificaciones | En el tablero local | También en la nube: centro de notificaciones y alarmas por severidad |
+| Silenciar alarma | Botón físico y tablero local | También desde la nube (RPC → gateway → MQTT → ESP32) |
+| IA | No había | Claude: predicción, anomalías y recomendación, con respaldo estadístico local |
+| Firmware | 3 tareas FreeRTOS | 4 tareas: se agrega `tMQTT` (núcleo 0) con cola de 120 muestras y LWT |
 
 ---
 
-## 🔄 De la v7 a la v8 (Challenge #2)
+## 🏗️ Arquitectura del sistema
 
-La v7 (primer corte) funcionaba en un Arduino Uno R3 y solo alertaba localmente. El segundo corte exige que las autoridades puedan vigilar el punto de monitoreo desde un navegador, dentro de la WLAN de la Alcaldía, sin MQTT y con la medición fuera del hilo principal. Esto obligó a migrar a ESP32 y a rediseñar el firmware.
+```mermaid
+flowchart LR
+  subgraph Nodo["Nodo ESP32 (in situ)"]
+    S[Sensores] --> F[Fusión, IRH y estados]
+    F --> L[LEDs · buzzer · OLED]
+    F --> W[Tablero local + login]
+  end
+  subgraph GW["Gateway Raspberry Pi"]
+    M[Mosquitto :1883] --> P[waterguard_gw.py]
+    P --> DB[(SQLite)]
+    P --> IA[Módulo IA · Claude]
+  end
+  subgraph Nube["LeMarTek Cloud for IoT"]
+    B[Puente MQTT-WS] --> TB[ThingsBoard: tablero, alarmas, usuarios]
+  end
+  F -- MQTT telemetría/estado/eventos --> M
+  P -- MQTT sobre WSS · túnel Cloudflare --> B
+  TB -- RPC silenciar alarma --> P -- MQTT cmd --> F
+  IA -- MQTT ia --> F
+```
 
-| Aspecto | v7 (primer corte) | v8 (segundo corte) |
+| Capa | Dónde corre | Qué hace |
 |---|---|---|
-| Placa | Arduino Uno R3 | ESP32 DevKit V1 (WROOM-32, 30 pines) |
-| Alertas | Solo in situ | In situ + tablero web en la WLAN |
-| Medición | En el `loop()` | ISR + tareas FreeRTOS (el `loop()` solo atiende la web) |
-| Nivel de agua | Solo HC-SR04 | HC-SR04 + MD-PS002 (presión hidrostática), fusionados |
-| Evaporación | Índice heurístico por pesos | Índice basado en la ley de Dalton (déficit de presión de vapor) |
-| Presión atmosférica | No se medía | BMP280 (opcional, detección automática) |
-| Seguridad | No aplicaba | Filtro de subred + login con hash SHA-256 + sesión atada a IP |
-| Silenciar alarma | No existía | Desde el tablero o con botón físico |
+| **Nodo** | ESP32 DevKit V1 | Mide con ISR y tareas FreeRTOS, fusiona señales, decide el estado, alerta in situ, sirve el tablero local y publica por MQTT |
+| **Gateway** | Raspberry Pi 5 (Raspberry Pi OS) | Broker Mosquitto con usuario y clave, valida y suaviza los datos, los guarda en SQLite **antes** de transmitirlos, calcula la tendencia, llama a la IA y reenvía a la nube |
+| **Nube** | LeMarTek Cloud for IoT (ThingsBoard CE en Docker, servidor propio publicado solo por túnel de Cloudflare) | Tablero global, histórico, alarmas, notificaciones, usuarios por rol (administrador y autoridad) y comando remoto de la alarma |
+
+### Tópicos MQTT
+| Tópico | Sentido | Contenido |
+|---|---|---|
+| `waterguard/nodo1/telemetria` | Nodo → gateway | Lecturas cada 5 s (`seq`, `edad_ms` para el buffer offline) |
+| `waterguard/nodo1/estado` | Nodo → gateway (retenido) | Estado, IRH, reglas activas; al cambiar o cada 60 s |
+| `waterguard/nodo1/eventos` | Nodo → gateway | Cambios de estado, fallas de sensores, alarma silenciada |
+| `waterguard/nodo1/disponible` | Nodo → gateway (LWT) | `online` / `offline` |
+| `waterguard/nodo1/cmd` | Gateway → nodo | `{"accion":"silenciar"|"rearmar","origen":...}` |
+| `waterguard/nodo1/ia` | Gateway → nodo (retenido) | Resultado de la IA: horas al nivel crítico, riesgo y recomendación |
+
+---
+
+## 🤖 Módulo de Inteligencia Artificial
+
+Corre en el gateway ([`codigo/gateway/ia_claude.py`](codigo/gateway/ia_claude.py)) y tiene dos capas:
+
+1. **Base estadística local**, siempre disponible y sin internet: regresión lineal del nivel en la última hora para estimar las horas hasta el nivel crítico.
+2. **Claude (API de Anthropic)**: recibe el resumen por minuto de las últimas 2 h, los eventos recientes y la base estadística, y devuelve un JSON validado contra un esquema con:
+   - `riesgo` (bajo, medio, alto, crítico) y `horas_hasta_critico` → **predicción**;
+   - `anomalia` y `tipo_anomalia` (fuga, consumo excesivo, evaporación por calor…) → **detección de anomalías**;
+   - `recomendacion` y `acciones` para las autoridades → **recomendación**.
+
+Se ejecuta cada 15 minutos y, además, de inmediato cuando el nodo entra en `ALERTA` o `CRITICO` (máximo una vez cada 3 minutos). Si no hay API key o la llamada falla, se usa solo la capa estadística, así que el sistema nunca queda sin predicción. El resultado aparece en la tarjeta de IA de LeMarTek Cloud, dispara la alarma "IA: riesgo alto" y se muestra en el tablero local del ESP32. Cada análisis cuesta del orden de USD 0.02.
 
 ---
 
@@ -80,7 +138,7 @@ La lógica de control se desarrolló mediante sesiones de **pair-programming con
 
 ---
 
-## 🚀 ¿Qué hace?
+## 🚀 ¿Qué hace el nodo?
 - Mide el **nivel de agua** con dos principios físicos distintos: ultrasonido desde arriba (HC-SR04) y presión hidrostática desde el fondo (MD-PS002). Si coinciden se promedian; si discrepan se usa el menor (criterio conservador para sequía) y se notifica; si uno falla, el otro mantiene el sistema operando.
 - Calcula la **tasa de descenso del nivel** (%/min) por regresión lineal sobre el último minuto.
 - Mide la **temperatura del agua** (DS18B20), **temperatura y humedad ambiente** (DHT11), **radiación** como proxy de luminosidad (fotoresistencia) y **presión atmosférica** (BMP280, opcional).
@@ -90,13 +148,14 @@ La lógica de control se desarrolló mediante sesiones de **pair-programming con
 - Clasifica el sistema en 5 estados: `NORMAL`, `ALERTA`, `CRITICO`, `DEGRADADO` y `ERROR`.
 - Alerta **in situ** con LEDs, buzzer y OLED, aunque se caiga el WiFi.
 - Publica un **tablero de control web** con valores actuales, histórico de 15 minutos, notificaciones y control de la alarma.
-- Imprime por Serial una línea `LOG,...` en CSV lista para análisis offline en Python.
+- Publica telemetría, estado y eventos por **MQTT** al gateway; si el gateway no está, guarda hasta 120 muestras y las envía al reconectar.
+- Recibe por MQTT el comando de silenciar la alarma desde la nube y el resultado de la IA.
 
 ---
 
 ## 🧠 Arquitectura del firmware
 
-La medición nunca pasa por el hilo principal. WiFi y la pila TCP corren en el núcleo 0; medición y lógica en el núcleo 1.
+La medición nunca pasa por el hilo principal. WiFi, la pila TCP y MQTT corren en el núcleo 0; medición y lógica en el núcleo 1.
 
 | Componente | Tipo | Núcleo / prioridad | Responsabilidad |
 |---|---|---|---|
@@ -105,29 +164,31 @@ La medición nunca pasa por el hilo principal. WiFi y la pila TCP corren en el n
 | `tSensores` | Tarea FreeRTOS | 1 / 3 | Lee todos los sensores y fusiona las dos fuentes de nivel |
 | `tAnalitica` | Tarea FreeRTOS | 1 / 2 | Evaporación, IRH, anomalías, estados, eventos e histórico |
 | `tSalidas` | Tarea FreeRTOS | 1 / 1 | LEDs, buzzer y OLED |
+| `tMQTT` | Tarea FreeRTOS | 0 / 1 | Conexión al gateway (mDNS `waterguard-gw.local`), cola de envío, LWT, comandos e IA |
 | `loop()` | Hilo principal | 1 | Solo servidor web y reconexión WiFi |
 
 Los datos compartidos se protegen con un mutex, y el bus I2C (compartido por OLED y BMP280) tiene su propio mutex.
 
 ---
 
-## 🌐 Tablero de control
+## 🌐 Tableros de control
 
-Servidor HTTP embebido en el ESP32, **sin MQTT** y **sin dependencias externas**. No carga nada de internet, porque la WLAN de la zona puede no tener salida: las gráficas se dibujan en `<canvas>`. Funciona en PC y celular.
+### Local (ESP32)
+Servidor HTTP embebido que no depende de internet: las gráficas se dibujan en `<canvas>`. Funciona en PC y celular.
+- Estado con código de color y motivo, tanque animado, variables cada 2 s e histórico de 15 minutos.
+- Notificaciones de cambios de estado, fallas, accesos y acciones sobre la alarma.
+- Botón para silenciar o reactivar la alarma física, estado de la conexión MQTT y panel con la última predicción de la IA.
+- Acceso en 3 capas: WPA2 de la WLAN, filtro de subred y login (clave en hash SHA-256, cookie `HttpOnly` atada a la IP, 30 min, bloqueo tras 5 intentos).
 
-- Estado del sistema con código de color y motivo (reglas activas, anomalías, discrepancia de nivel).
-- Tanque animado con el nivel fusionado y el detalle de cada fuente.
-- Variables en tiempo real (actualización cada 2 s) e histórico de 15 minutos por variable.
-- Notificaciones de cambios de estado, fallas de sensores, accesos y acciones sobre la alarma, con sonido y vibración opcionales.
-- Botón para silenciar o reactivar la alarma física.
-
-### 🔒 Acceso restringido (3 capas)
-1. **WPA2** de la WLAN, a cargo de la Alcaldía.
-2. **Filtro de subred:** se rechaza cualquier IP fuera de la red local, y cada rechazo queda registrado. Hay una lista blanca opcional de IPs para usar con reservas DHCP.
-3. **Login:** la clave se almacena como hash SHA-256 y se compara en tiempo constante. La sesión usa un token aleatorio de 128 bits en una cookie `HttpOnly` atada a la IP del cliente, con expiración de 30 minutos. Tras 5 intentos fallidos, la IP se bloquea 2 minutos.
+### Global (LeMarTek Cloud for IoT)
+ThingsBoard CE desplegado con Docker en un servidor propio, publicado solo por un túnel de Cloudflare (no abre puertos). Código en [`codigo/lemartek-cloud/`](codigo/lemartek-cloud/).
+- Tablero con tanque, 9 tarjetas de variables, gráficas históricas, tarjeta de IA, tabla de alarmas y bitácora de eventos.
+- **Alarmas:** nivel crítico del tanque, riesgo hídrico crítico (fusión), descenso anómalo con calor, nodo sin conexión e IA: riesgo alto.
+- **Notificaciones** a administradores y autoridades al crearse, cambiar de severidad o limpiarse una alarma.
+- **Botones** para silenciar y reactivar la alarma física del nodo.
+- **Usuarios por rol:** administrador LeMarTek y autoridad de la Alcaldía (solo ve su tablero). Claves de mínimo 12 caracteres, bloqueo tras 5 intentos y doble factor (TOTP).
 
 ---
-
 ## 🔌 Hardware y pines (ESP32 DevKit V1)
 
 En la placa, el número después de la "D" es el número de GPIO. Los GPIO 16 y 17 están rotulados **RX2** y **TX2**.
@@ -142,7 +203,7 @@ En la placa, el número después de la "D" es el número de GPIO. Los GPIO 16 y 
 | DS18B20 | D27 | Temperatura del agua. Pull-up de 4.7 kΩ a 3.3 V |
 | Fotoresistencia | D34 | Radiación / luminosidad (ADC1) |
 | LED verde / amarillo / rojo | RX2 (16) / TX2 (17) / D19 | Estado del sistema (220 Ω en serie) |
-| Buzzer | D23 | Alarma sonora (conexión directa) |
+| Buzzer activo | D23 | Alarma sonora, mediante transistor 2N2222 (base con 1 kΩ), alimentado a 5 V |
 | Botón | D18 | Silenciar alarma in situ (a GND, pull-up interno) |
 
 ⚠️ Los sensores se alimentan a **3.3 V**; solo el HC-SR04 va a VIN (5 V). No se usan los pines 0, 2, 12 y 15 (arranque) ni el ADC2.
@@ -196,9 +257,38 @@ Cada anomalía estadística activa suma 5 puntos (máximo 4). Los índices se no
 > Los umbrales de descenso (1 y 3 %/min) están escalados para que el prototipo muestre los eventos en minutos. En campo se calibran según la dinámica real del reservorio.
 
 ---
+---
 
-## 📦 Carcasa y empaque (Challenge #3)
+## 🍓 Gateway (Raspberry Pi)
 
+Código en [`codigo/gateway/`](codigo/gateway/) y despliegue en [`codigo/raspberry/`](codigo/raspberry/).
+
+| Archivo | Función |
+|---|---|
+| `waterguard_gw.py` | Programa principal: suscripción MQTT, validación de rangos, media móvil, tasa de descenso por regresión de 15 min, hilos de reenvío e IA, comandos al nodo |
+| `basedatos.py` | SQLite (modo WAL): tablas `telemetria`, `eventos`, `estados`, `ia`, con columna `enviado` para reenvío diferido |
+| `plataforma.py` | Conexión MQTT a la nube (ThingsBoard o Ubidots), por TCP o WebSockets con TLS, y recepción de RPC |
+| `ia_claude.py` | Módulo de IA (ver arriba) |
+| `config.py` | Lee `waterguard.env` |
+| `simulador_nodo.py` | Simula un ESP32 publicando por MQTT, para probar sin hardware |
+
+### SD lista para la Raspberry
+La carpeta [`codigo/raspberry/`](codigo/raspberry/) deja una SD con Raspberry Pi OS Lite (Trixie, 64 bits) que se configura sola en el primer arranque mediante cloud-init: se conecta a la WiFi, instala Mosquitto con usuarios y ACL, el gateway como servicio `systemd` (`waterguard-gw`) y publica el nombre `waterguard-gw.local` por mDNS.
+
+1. Copia `sd/user-data.ejemplo`, `sd/network-config.ejemplo` y `../gateway/waterguard.env.ejemplo` a `sd/user-data`, `sd/network-config` y `sd/waterguard.env`, y complétalos (WiFi, claves, API key).
+2. Descarga Raspberry Pi OS Lite 64-bit en `trabajo/raspios.img` y graba: `bash grabar_sd.sh /dev/sdX`.
+3. Pon la SD en la Raspberry, enciéndela y espera 5–10 minutos. La bitácora queda en `/boot/firmware/waterguard/instalacion.log`.
+
+Para probar en un PC sin Raspberry:
+```bash
+cd codigo/gateway && python -m venv .venv && .venv/bin/pip install -r requirements.txt
+cp waterguard.env.ejemplo waterguard.env   # completar
+.venv/bin/python waterguard_gw.py          # en otra terminal: .venv/bin/python simulador_nodo.py
+```
+
+---
+
+## 📦 Carcasa y empaque
 El nodo se integra en una carcasa de **MDF de 3 mm cortada con láser** (≈ 150 × 110 × 56 mm), elegida por economía, tiempo de fabricación, facilidad de ensamble y menor impacto ambiental frente a la impresión 3D. Las plantillas de corte están en [`diseno/carcasa-mdf/`](diseno/carcasa-mdf/) y el diseño completo, en la [sección 2.8 de la Wiki](../../wiki/2.8.-Diseño-Mecánico-Carcasa-y-Empaque).
 
 <p align="center">
@@ -207,6 +297,8 @@ El nodo se integra en una carcasa de **MDF de 3 mm cortada con láser** (≈ 150
 </p>
 <p align="center"><em>Carcasa ensamblada (foto real mejorada con IA) y plantilla de corte láser v2.0.</em></p>
 
+Como alternativa, en [`diseno/carcasa-impresa-3d/`](diseno/carcasa-impresa-3d/) está la carcasa paramétrica en OpenSCAD para impresión 3D (base, tapa con alero contra lluvia, adaptador para OLED de 0.96" y soporte para tanque), con los STL listos y la plantilla del soporte a escala 1:1.
+
 ## 🛠️ Librerías necesarias
 Desde el Gestor de Librerías del Arduino IDE:
 - `U8g2`
@@ -214,6 +306,7 @@ Desde el Gestor de Librerías del Arduino IDE:
 - `Adafruit BMP280 Library`
 - `OneWire`
 - `DallasTemperature`
+- `PubSubClient` (Nick O'Leary) y `ArduinoJson` (Benoît Blanchon), para MQTT en la v9.
 
 El HX710B no necesita librería: su protocolo se implementa en `leerHX710B()`. Las referencias IEEE de cada librería están en el [Anexo F de la Wiki](../../wiki/6.-Anexos).
 
@@ -223,15 +316,16 @@ El HX710B no necesita librería: su protocolo se implementa en `leerHX710B()`. L
 La electrónica de un nodo cuesta alrededor de **COP 220.700**, según precios de tiendas colombianas (YoRobotics y Electronilab) consultados el 28-sep-2026. Con la carcasa en MDF (COP 35.000) y el empaque (COP 10.000), el producto empacado cuesta **≈ COP 265.700**. El desglose por componente está en el [Modelo de negocio de la Wiki](../../wiki/2.7.-Modelo-de-Negocio).
 
 ## ▶️ Uso
-1. Conecta los componentes según la tabla de pines.
-2. En [WaterGuard_v8.ino](codigo/WaterGuard_v8/WaterGuard_v8.ino), configura `WIFI_SSID` y `WIFI_PASS` con la red de la zona (debe ser de **2.4 GHz**), y define las credenciales del tablero (`USUARIO_TABLERO` y el hash SHA-256 de la clave en `HASH_CLAVE_TABLERO`). Para generar el hash:
+1. Conecta los componentes según la tabla de pines (esquema completo en la [sección 2.5 de la Wiki](../../wiki/2.5.-Esquemático-de-Hardware)).
+2. En [WaterGuard_v9.ino](codigo/WaterGuard_v9/WaterGuard_v9.ino), configura `WIFI_SSID` y `WIFI_PASS` con la misma red del gateway (debe ser de **2.4 GHz**), las credenciales MQTT (`MQTT_USUARIO`, `MQTT_CLAVE`, iguales a las de `waterguard.env`) y las del tablero (`USUARIO_TABLERO` y el hash SHA-256 de la clave en `HASH_CLAVE_TABLERO`). Para generar el hash:
    ```bash
    python -c "import hashlib;print(hashlib.sha256(b'TU_CLAVE').hexdigest())"
    ```
-3. En el Arduino IDE, selecciona la placa **DOIT ESP32 DEVKIT V1** y el puerto correspondiente, y sube el código con **Subir** (no con Depurar). Si se queda en "Connecting...", mantén presionado **BOOT**.
-4. Si usas el MD-PS002, enciende con la manguera **fuera del agua**: los primeros segundos se toman como referencia de 0 cm. Luego lleva la punta al fondo del tanque.
-5. Abre el Monitor Serial a **115200 baudios**. Ahí verás los sensores detectados, el escaneo I2C y la IP del tablero, que también aparece en la segunda página de la OLED.
-6. Desde un dispositivo conectado a la misma red, abre `http://<IP del ESP32>` (o `http://waterguard.local`) e inicia sesión.
+3. En el Arduino IDE, selecciona **DOIT ESP32 DEVKIT V1** y sube el código. Si se queda en "Connecting...", mantén presionado **BOOT**.
+4. Prepara la SD del gateway (sección anterior) y enciende la Raspberry en la misma red.
+5. Si usas el MD-PS002, enciende con la manguera **fuera del agua**: los primeros segundos se toman como referencia de 0 cm.
+6. Abre el Monitor Serial a **115200 baudios**: verás los sensores detectados, la IP del tablero local y la conexión MQTT (`+MQ` en la OLED).
+7. Tablero local: `http://<IP del ESP32>` o `http://waterguard.local`. Tablero global: `https://iot.lemartek.cloud`.
 
 ### Calibración del sensor de presión
 La sensibilidad varía entre módulos. Anota el valor `HX crudo` del Serial con la manguera en el aire y luego sumergida a una profundidad conocida *H* (cm), y ajusta:
@@ -240,12 +334,29 @@ La sensibilidad varía entre módulos. Anota el valor `HX crudo` del Serial con 
 HX_CUENTAS_POR_KPA = (crudo_sumergido − crudo_aire) / (H × 0.0980665)
 ```
 
+
 ---
+
+## 🗂️ Estructura del repositorio
+```
+codigo/
+├── WaterGuard_v9/      Firmware del nodo ESP32 (Challenge #3)
+├── gateway/            Gateway Python: MQTT → SQLite → nube + IA
+├── raspberry/          SD autoconfigurable, Mosquitto y servicio systemd
+├── lemartek-cloud/     Plataforma en la nube (ThingsBoard + puente MQTT-WS + túnel)
+├── WaterGuard_v8/      Firmware del segundo corte
+├── WaterGuard_v7/      Firmware del primer corte (Arduino)
+└── scripts/            Utilidades (actas a PDF)
+diseno/                 Carcasa en MDF (corte láser) y carcasa impresa en 3D
+wiki/                   Copia de la wiki entregada
+docs/actas/             Actas de reunión en PDF
+assets/                 Imágenes
+```
 
 ## 📚 Más información
-Este README es un resumen. El diseño completo, las justificaciones de cada umbral, los diagramas, el protocolo de pruebas con sus resultados y la declaración de uso de IA están en la **[Wiki de este repositorio](../../wiki)**. La versión del primer corte se conserva en [WaterGuard_v7.ino](codigo/WaterGuard_v7/WaterGuard_v7.ino).
----
+Este README es un resumen. El diseño completo, las justificaciones de cada umbral, los diagramas, el protocolo de pruebas con sus resultados y la declaración de uso de IA están en la **[Wiki de este repositorio](../../wiki)**. Las versiones anteriores se conservan en [WaterGuard_v8.ino](codigo/WaterGuard_v8/WaterGuard_v8.ino) y [WaterGuard_v7.ino](codigo/WaterGuard_v7/WaterGuard_v7.ino).
 
+---
 ## 📑 Referencias principales
 Formato IEEE. La lista completa (53 referencias) está en la [página de Referencias de la Wiki](../../wiki/Referencias).
 

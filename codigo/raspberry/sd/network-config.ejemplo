@@ -1,0 +1,12 @@
+# WaterGuard v9 - WiFi del gateway (debe ser la MISMA red del ESP32)
+network:
+  version: 2
+  wifis:
+    renderer: NetworkManager
+    wlan0:
+      dhcp4: true
+      optional: true
+      regulatory-domain: "CO"
+      access-points:
+        "TU_RED_WIFI":
+          password: "TU_CLAVE_WIFI"

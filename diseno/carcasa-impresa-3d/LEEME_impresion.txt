@@ -1,0 +1,41 @@
+WaterGuard v2.0 (nodo ESP32) - Archivos para imprimir
+=====================================================
+
+PIEZAS (2 archivos separados, ya orientados; NO rotar)
+  1. WaterGuard_ESP32_BASE.stl   158 x 112 x 38 mm  - de pie, el piso sobre la cama
+  2. WaterGuard_ESP32_TAPA.stl   165 x 119 x 6 mm   - boca abajo: la cara plana sobre la cama
+
+  Caben en impresoras de 180 x 180 mm o más (Ender 3, Prusa, Bambu, etc.).
+  Se imprimen una por una (o juntas si la cama es de 300 x 300 mm o más).
+
+CONFIGURACIÓN
+  Material ........ PETG (intemperie y humedad del tanque).
+                    PLA solo si es para la exposición en interiores.
+  Color ........... Claro (blanco o gris): se calienta menos al sol.
+  Boquilla ........ 0.4 mm
+  Altura de capa .. 0.2 mm
+  Paredes ......... 4 perímetros
+  Capas sup/inf ... 5 / 5
+  Relleno ......... 20 % (giroide o rejilla)
+  SOPORTES ........ NO. Diseñado para imprimirse sin soportes.
+  Adherencia ...... Borde (brim) de 5 mm en la BASE recomendado.
+
+  Filamento aprox.: 150-190 g en total. Tiempo aprox.: 9-12 h entre las dos piezas.
+
+DESPUÉS DE IMPRIMIR
+  - Repasar con broca de 2.5 mm los agujeros de tornillo si quedan cerrados.
+  - Probar que la tapa encaje antes de montar la electrónica.
+
+TORNILLERÍA
+  6x M3 x 10   tapa -> base (autorroscantes)
+  4x M2 x 5    baquela 5x7 -> postes
+  4x M2.5 x 4  pantalla OLED -> tapa
+  4x M1.6 x 4  HC-SR04 (o pegamento caliente)
+  Portapilas 2x18650: cinta doble faz (tiene topes que lo ubican)
+
+PARA SELLAR (lluvia)
+  - Acrílico de 2 mm de 65 x 37.5 mm sobre la pantalla, con silicona.
+  - Silicona transparente en el agujero de la fotorresistencia.
+  - Silicona en el agujero del cable del panel solar (bajo el panel).
+  - Cinta de espuma entre la tapa y la base.
+  - Silicona alrededor del cable del DS18B20 en el piso.

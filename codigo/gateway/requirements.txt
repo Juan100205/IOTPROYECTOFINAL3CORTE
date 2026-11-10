@@ -1,0 +1,2 @@
+paho-mqtt==2.2.0
+anthropic==2.6.0

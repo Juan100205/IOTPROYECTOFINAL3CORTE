@@ -1,0 +1,21 @@
+[Unit]
+Description=WaterGuard v9 - Gateway IoT (MQTT local -> SQLite -> LeMarTek Cloud + IA)
+Wants=network-online.target
+After=network-online.target mosquitto.service time-sync.target
+Requires=mosquitto.service
+
+[Service]
+Type=simple
+User=waterguard-svc
+Group=waterguard-svc
+WorkingDirectory=/opt/waterguard
+Environment=WG_ENV=/etc/waterguard/waterguard.env
+Environment=PYTHONUNBUFFERED=1
+# Toma los cambios del waterguard.env de la partición de arranque
+ExecStartPre=+/opt/waterguard/sincronizar_env.sh
+ExecStart=/opt/waterguard/venv/bin/python /opt/waterguard/waterguard_gw.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -181,7 +181,7 @@ Servidor HTTP embebido que no depende de internet: las gráficas se dibujan en `
 - Acceso en 3 capas: WPA2 de la WLAN, filtro de subred y login (clave en hash SHA-256, cookie `HttpOnly` atada a la IP, 30 min, bloqueo tras 5 intentos).
 
 ### Global (LeMarTek Cloud for IoT)
-ThingsBoard CE desplegado con Docker en un servidor propio, publicado solo por un túnel de Cloudflare (no abre puertos). Código en [`codigo/lemartek-cloud/`](codigo/lemartek-cloud/).
+ThingsBoard CE desplegado con Docker en la infraestructura privada de LeMarTek, publicado solo por un túnel de Cloudflare (no abre puertos). Su configuración no se publica en este repositorio.
 - Tablero con tanque, 9 tarjetas de variables, gráficas históricas, tarjeta de IA, tabla de alarmas y bitácora de eventos.
 - **Alarmas:** nivel crítico del tanque, riesgo hídrico crítico (fusión), descenso anómalo con calor, nodo sin conexión e IA: riesgo alto.
 - **Notificaciones** a administradores y autoridades al crearse, cambiar de severidad o limpiarse una alarma.
@@ -343,7 +343,6 @@ codigo/
 ├── WaterGuard_v9/      Firmware del nodo ESP32 (Challenge #3)
 ├── gateway/            Gateway Python: MQTT → SQLite → nube + IA
 ├── raspberry/          SD autoconfigurable, Mosquitto y servicio systemd
-├── lemartek-cloud/     Plataforma en la nube (ThingsBoard + puente MQTT-WS + túnel)
 ├── WaterGuard_v8/      Firmware del segundo corte
 ├── WaterGuard_v7/      Firmware del primer corte (Arduino)
 └── scripts/            Utilidades (actas a PDF)

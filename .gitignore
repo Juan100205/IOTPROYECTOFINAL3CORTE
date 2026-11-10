@@ -21,7 +21,7 @@ desktop.ini
 !*.env.ejemplo
 credenciales*.txt
 tunnel_token
-codigo/lemartek-cloud/mqtt-ws/
+codigo/lemartek-cloud/
 codigo/raspberry/sd/user-data
 codigo/raspberry/sd/network-config
 codigo/raspberry/sd/waterguard.env

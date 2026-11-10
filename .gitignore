@@ -42,3 +42,6 @@ __pycache__/
 
 # Archivos temporales de pruebas de navegador
 .playwright-mcp/
+
+# Material y edición del video (pesado, no se versiona)
+video/

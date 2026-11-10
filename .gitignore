@@ -39,3 +39,6 @@ __pycache__/
 *.db
 *.db-wal
 *.db-shm
+
+# Archivos temporales de pruebas de navegador
+.playwright-mcp/

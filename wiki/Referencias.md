@@ -140,7 +140,7 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 
 ## Ecosistema IoT, IA y metodología (Challenge #3)
 
-[56] A. Banks, E. Briggs, K. Borgendale y R. Gupta, Eds., *MQTT Version 5.0*, OASIS Standard, Mar. 2019. [En línea]. Disponible: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
+[56] A. Banks y R. Gupta, Eds., *MQTT Version 3.1.1*, OASIS Standard, Oct. 2014. [En línea]. Disponible: https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html
 
 [57] P. Lewis *et al.*, "Retrieval-augmented generation for knowledge-intensive NLP tasks," en *Advances in Neural Information Processing Systems (NeurIPS)*, vol. 33, 2020, pp. 9459–9474.
 
@@ -148,3 +148,4 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 
 [59] J. Knapp, J. Zeratsky y B. Kowitz, *Sprint: How to Solve Big Problems and Test New Ideas in Just Five Days*. Nueva York, NY, EE. UU.: Simon & Schuster, 2016.
 
+[60] I. Fette y A. Melnikov, "The WebSocket protocol," RFC 6455, Dic. 2011, doi: 10.17487/RFC6455.

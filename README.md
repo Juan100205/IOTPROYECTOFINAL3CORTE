@@ -271,6 +271,9 @@ Código en [`codigo/gateway/`](codigo/gateway/) y despliegue en [`codigo/raspber
 | `ia_claude.py` | Módulo de IA (ver arriba) |
 | `config.py` | Lee `waterguard.env` |
 | `simulador_nodo.py` | Simula un ESP32 publicando por MQTT, para probar sin hardware |
+| `pruebas/prueba_alerta_bd.py` | Prueba automatizada de la alerta crítica por falla de SQLite (no necesita broker) |
+
+**Alerta crítica por falla de la base de datos:** si una escritura en SQLite falla, el Gateway avisa en la OLED y en el tablero local del ESP32 (por `.../ia`) y en LeMarTek Cloud (`alerta_bd`), y retiene las escrituras en orden hasta que la base se recupera. Ningún dato llega a la nube sin quedar antes en SQLite.
 
 ### SD lista para la Raspberry
 La carpeta [`codigo/raspberry/`](codigo/raspberry/) deja una SD con Raspberry Pi OS Lite (Trixie, 64 bits) que se configura sola en el primer arranque mediante cloud-init: se conecta a la WiFi, instala Mosquitto con usuarios y ACL, el gateway como servicio `systemd` (`waterguard-gw`) y publica el nombre `waterguard-gw.local` por mDNS.
@@ -297,7 +300,7 @@ El nodo se integra en una carcasa de **MDF de 3 mm cortada con láser** (≈ 150
 </p>
 <p align="center"><em>Carcasa ensamblada (foto real mejorada con IA) y plantilla de corte láser v2.0.</em></p>
 
-Como alternativa, en [`diseno/carcasa-impresa-3d/`](diseno/carcasa-impresa-3d/) está la carcasa paramétrica en OpenSCAD para impresión 3D (base, tapa con alero contra lluvia, adaptador para OLED de 0.96" y soporte para tanque), con los STL listos y la plantilla del soporte a escala 1:1.
+En [`diseno/carcasa-impresa-3d/`](diseno/carcasa-impresa-3d/) queda la carcasa paramétrica en OpenSCAD para impresión 3D (base, tapa con alero contra lluvia, adaptador para OLED de 0.96" y soporte para tanque), con los STL y la plantilla del soporte a escala 1:1. **Se descartó** porque el plástico impreso se deforma con el calor del halógeno del banco de pruebas y del sol; se conserva como alternativa evaluada.
 
 ## 🛠️ Librerías necesarias
 Desde el Gestor de Librerías del Arduino IDE:

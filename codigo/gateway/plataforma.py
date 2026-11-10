@@ -167,6 +167,20 @@ class Plataforma:
             return self._publicar(self._topico(), {"ts": ts, "values": {"nodo_online": online}})
         return self._publicar(self._topico(), {"nodo_online": {"value": int(online), "timestamp": ts}})
 
+    def enviar_alerta_bd(self, ts, activa, msg):
+        """Alerta crítica del gateway: falla de escritura en la base de datos local.
+
+        En ThingsBoard (LeMarTek Cloud) llega como telemetría `alerta_bd`; con una
+        regla de alarma sobre esa clave el tablero notifica a las autoridades.
+        """
+        if self.cli is None or not self.conectada.is_set():
+            return False
+        if self.cfg["plataforma"] == "thingsboard":
+            return self._publicar(self._topico(), {"ts": ts, "values": {
+                "alerta_bd": bool(activa), "alerta_bd_msg": msg if activa else ""}})
+        return self._publicar(self._topico(), {
+            "alerta_bd": {"value": int(bool(activa)), "timestamp": ts, "context": {"msg": msg[:100]}}})
+
     def enviar_ia(self, filas):
         if self.cli is None or not self.conectada.is_set():
             return False

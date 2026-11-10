@@ -1,4 +1,4 @@
-# 💧 WaterGuard v8: Wiki del Challenge #2
+# 💧 WaterGuard v9: Wiki del Challenge #3
 
 **Universidad de La Sabana**, Facultad de Ingeniería · Internet de las Cosas 2026-2
 **Integrantes:** Juan José Riaño Zabaleta · Santiago Peña Beltrán
@@ -7,7 +7,9 @@ Prototipo IoT de bajo costo basado en ESP32 que monitorea la disponibilidad de a
 
 > *Abstract.* WaterGuard v8 is a low-cost ESP32 IoT prototype that fuses redundant water-level sensing (ultrasonic + hydrostatic) with weather variables to compute a Dalton-based potential-evaporation index and a Water Risk Index. It raises on-site alarms and serves a WLAN-restricted embedded web dashboard (no MQTT), with sensing done in ISRs and FreeRTOS tasks.
 
-> 🚧 **Challenge #3 en curso:** ver el [plan de trabajo v8 → v9](0.-Plan-del-Challenge-3).
+> **WaterGuard v9 (Challenge #3):** ecosistema IoT de tres capas. El nodo ESP32 envía sus datos por **MQTT** a un **Gateway en Raspberry Pi 5**, que los guarda en una base de datos local **SQLite** y los procesa antes de subirlos a la nube. Allí un **tablero global** (Vercel) y un **módulo de IA** (API de ChatGPT) apoyan las decisiones de las autoridades de Cundinamarca. Ver la [solución propuesta](2.-Solución-Propuesta), la [arquitectura v9](2.2.-Arquitectura-Propuesta) y el [plan de trabajo](0.-Plan-del-Challenge-3).
+>
+> El contenido base de la v8 (nodo sensor) se conserva en las secciones que siguen.
 
 ## Contenido
 

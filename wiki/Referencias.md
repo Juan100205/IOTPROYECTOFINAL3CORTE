@@ -137,3 +137,14 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 [54] *Fibreboards — Specifications — Part 5: Requirements for dry process boards (MDF)*, EN 622-5:2009, European Committee for Standardization (CEN), Bruselas, Bélgica, 2009.
 
 [55] *Degrees of protection provided by enclosures (IP Code)*, IEC 60529:1989+AMD1:1999+AMD2:2013, International Electrotechnical Commission, Ginebra, Suiza, 2013.
+
+## Ecosistema IoT, IA y metodología (Challenge #3)
+
+[56] A. Banks, E. Briggs, K. Borgendale y R. Gupta, Eds., *MQTT Version 5.0*, OASIS Standard, Mar. 2019. [En línea]. Disponible: https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html
+
+[57] P. Lewis *et al.*, "Retrieval-augmented generation for knowledge-intensive NLP tasks," en *Advances in Neural Information Processing Systems (NeurIPS)*, vol. 33, 2020, pp. 9459–9474.
+
+[58] K. Beck, *Test-Driven Development: By Example*. Boston, MA, EE. UU.: Addison-Wesley, 2002.
+
+[59] J. Knapp, J. Zeratsky y B. Kowitz, *Sprint: How to Solve Big Problems and Test New Ideas in Just Five Days*. Nueva York, NY, EE. UU.: Simon & Schuster, 2016.
+

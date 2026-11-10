@@ -11,6 +11,16 @@ Prototipo IoT de bajo costo basado en ESP32 que monitorea la disponibilidad de a
 >
 > El contenido base de la v8 (nodo sensor) se conserva en las secciones que siguen.
 
+## Enlaces públicos
+
+| Recurso | Enlace |
+|---|---|
+| 🌐 Tablero global (LeMarTek Cloud) | [iot.lemartek.cloud](https://iot.lemartek.cloud/) · acceso solo con usuario autorizado |
+| 🎬 Video demostrativo (4:49) | [Microsoft Stream (Teams)](https://unisabanaedu.sharepoint.com/:v:/s/Section_38906734699371/IQATLGUkAyPMQohUeUwel1CQAfkErWDD3ub2KPHNx16AHXY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=tgNbTR) · [GitHub](https://github.com/Juan100205/IOTPROYECTOFINAL3CORTE/blob/main/docs/video/WaterGuard_v9_video.mp4) |
+| 💻 Repositorio (código, diseño y actas) | [Juan100205/IOTPROYECTOFINAL3CORTE](https://github.com/Juan100205/IOTPROYECTOFINAL3CORTE) |
+| 📖 Wiki | [github.com/…/IOTPROYECTOFINAL3CORTE/wiki](https://github.com/Juan100205/IOTPROYECTOFINAL3CORTE/wiki) |
+| 📝 Actas en PDF | [docs/actas](https://github.com/Juan100205/IOTPROYECTOFINAL3CORTE/tree/main/docs/actas) |
+
 ## Contenido
 
 1. [Resumen general](1.-Resumen-General): motivación, justificación y estructura

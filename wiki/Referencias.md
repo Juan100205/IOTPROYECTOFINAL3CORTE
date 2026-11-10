@@ -92,11 +92,11 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 
 ## Normativa colombiana y viabilidad
 
-[30] Congreso de la República de Colombia, *Ley 1523 de 2012, por la cual se adopta la política nacional de gestión del riesgo de desastres*, Bogotá, Colombia, Abr. 2012.
+[30] Congreso de la República de Colombia, *Ley 1523 de 2012, por la cual se adopta la política nacional de gestión del riesgo de desastres y se establece el Sistema Nacional de Gestión del Riesgo de Desastres*, Diario Oficial n.º 48.411, 24 Abr. 2012. [En línea]. Disponible: https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=47141
 
-[31] Congreso de la República de Colombia, *Ley 373 de 1997, por la cual se establece el programa para el uso eficiente y ahorro del agua*, Bogotá, Colombia, Jun. 1997.
+[31] Congreso de la República de Colombia, *Ley 373 de 1997, por la cual se establece el programa para el uso eficiente y ahorro del agua*, Diario Oficial n.º 43.058, 11 Jun. 1997. [En línea]. Disponible: https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=342
 
-[32] Congreso de la República de Colombia, *Ley Estatutaria 1581 de 2012, por la cual se dictan disposiciones generales para la protección de datos personales*, Bogotá, Colombia, Oct. 2012.
+[32] Congreso de la República de Colombia, *Ley Estatutaria 1581 de 2012, por la cual se dictan disposiciones generales para la protección de datos personales*, Diario Oficial n.º 48.587, 18 Oct. 2012. [En línea]. Disponible: https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981
 
 [38] A. M. Flórez Laiseca, P. A. Loaiza Trejos y S. Ospina Reyes, "Gestión ambiental empresarial apoyada en IoT: Evaluación económica y social en el Quindío, Colombia," *Palermo Business Review*, no. 32, pp. 100–116, Dic. 2025. [En línea]. Disponible: https://www.palermo.edu/negocios/cbrs/pdf/pbr32/pbr-32-06.pdf
 
@@ -151,3 +151,28 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 [60] I. Fette y A. Melnikov, "The WebSocket protocol," RFC 6455, Dic. 2011, doi: 10.17487/RFC6455.
 
 [61] element14 Community, "How much is the Raspberry Pi 5?," Raspberry Pi 5 FAQ. [En línea]. Disponible: https://community.element14.com/products/raspberry-pi/f/raspberry-pi-5-faq/53723/how-much-does-the-raspberry-pi-5-cost. [Accedido: 10 Nov. 2026].
+
+## Normativa del espectro y tecnologías del ecosistema v9
+
+[62] Agencia Nacional del Espectro (ANE), *Resolución 105 de 2020, por medio de la cual se planea y atribuye el espectro radioeléctrico en Colombia* (Título 4 y Anexo 1: bandas de uso libre, incluida 2400–2483,5 MHz), modificada por la Resolución 469 de 2020. [En línea]. Disponible: https://normograma.mintic.gov.co/mintic/compilacion/docs/resolucion_ane_0105_2020.htm
+
+[63] ThingsBoard, Inc., *ThingsBoard Community Edition Documentation*, v4.2. [En línea]. Disponible: https://thingsboard.io/docs/. [Accedido: 10 Nov. 2026].
+
+[64] The PostgreSQL Global Development Group, *PostgreSQL Documentation*. [En línea]. Disponible: https://www.postgresql.org/docs/. [Accedido: 10 Nov. 2026].
+
+[65] Docker, Inc., *Docker Compose Documentation*. [En línea]. Disponible: https://docs.docker.com/compose/. [Accedido: 10 Nov. 2026].
+
+[66] R. A. Light, "Mosquitto: server and client implementation of the MQTT protocol," *J. Open Source Softw.*, vol. 2, no. 13, p. 265, 2017, doi: 10.21105/joss.00265.
+
+[67] Cloudflare, Inc., *Cloudflare Tunnel*, Cloudflare Zero Trust Documentation. [En línea]. Disponible: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/. [Accedido: 10 Nov. 2026].
+
+[68] SQLite Consortium, "Write-Ahead Logging," *SQLite Documentation*. [En línea]. Disponible: https://www.sqlite.org/wal.html. [Accedido: 10 Nov. 2026].
+
+[69] Eclipse Foundation, *Eclipse Paho MQTT Python Client (paho-mqtt 2.2)*. [En línea]. Disponible: https://pypi.org/project/paho-mqtt/. [Accedido: 10 Nov. 2026].
+
+[70] Anthropic, *Claude API Documentation: Structured outputs and Messages API*. [En línea]. Disponible: https://platform.claude.com/docs. [Accedido: 10 Nov. 2026].
+
+[71] N. O'Leary, "PubSubClient: A client library for the Arduino that provides support for MQTT," GitHub. [En línea]. Disponible: https://github.com/knolleary/pubsubclient. [Accedido: 10 Nov. 2026].
+
+[72] B. Blanchon, "ArduinoJson: JSON library for embedded C++," GitHub. [En línea]. Disponible: https://github.com/bblanchon/ArduinoJson. [Accedido: 10 Nov. 2026].
+

@@ -116,17 +116,17 @@ La elección respondió a un balance entre **cobertura de las variables**, **cos
 Cada sensor se conectó y probó de forma individual antes de integrarlos en un mismo circuito y firmware. En la migración a ESP32 se adaptó el cableado a la lógica de 3.3 V (divisor de voltaje en el ECHO del HC-SR04, pull-ups a 3.3 V) y se evitaron los pines de arranque y el ADC2, que no funciona con WiFi activo.
 
 <p align="center">
-  <img src="assets/Figura1_montaje.png" alt="Circuito conectado con el sensor de temperatura del agua en el recipiente de prueba" width="48%">
-  <img src="assets/Figura2_montaje.png" alt="Circuito conectado con el sensor sumergido en el tanque de prueba" width="48%">
+  <img src="assets/carcasa-mdf-v2.jpg" alt="Nodo WaterGuard v9 ensamblado en la carcasa de MDF" width="48%">
+  <img src="assets/empaque-abierto.jpg" alt="Nodo WaterGuard v9 en su empaque" width="48%">
 </p>
-<p align="center"><em>Figuras 1 y 2 — Montaje del primer corte (Arduino, pantalla OLED, LEDs indicadores y sensores) sobre los recipientes usados para simular el tanque de agua.</em></p>
+<p align="center"><em>Figuras 1 y 2 — Nodo WaterGuard v9 en su carcasa de MDF y en su empaque (fotos reales mejoradas con IA).</em></p>
 
 <p align="center">
   <img src="assets/Figura3_oled.png" alt="Lectura en la pantalla OLED durante la prueba" width="60%">
 </p>
 <p align="center"><em>Figura 3 — Pantalla OLED reportando en vivo el estado del sistema durante una corrida de prueba del primer corte.</em></p>
 
-> Las fotos del montaje v8 en ESP32 y las capturas del tablero se documentan en la [sección 3 de la Wiki](../../wiki/3.-Configuración-Experimental,-Resultados-y-Análisis).
+> El tablero global en LeMarTek Cloud y las evidencias de las pruebas de la v9 están en la [sección 3 de la Wiki](../../wiki/3.-Configuración-Experimental,-Resultados-y-Análisis).
 
 ### 5. Desarrollo del firmware asistido por IA
 La lógica de control se desarrolló mediante sesiones de **pair-programming con IA**, iterando sobre el código hasta ajustarlo a los requerimientos del reto y a los umbrales validados con datos del banco de pruebas. La declaración de uso de IA exigida por el curso (herramientas consultadas, instrucciones enviadas y cómo se validaron las respuestas) está en la **[Wiki](../../wiki)**.

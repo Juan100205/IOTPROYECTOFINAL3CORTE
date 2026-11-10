@@ -12,6 +12,8 @@ Las alertas llegan en tres niveles:
 
 > 📖 **¿Quieres profundizar?** Restricciones de diseño, arquitectura, diagramas UML, esquemáticos, estándares, modelo de negocio, protocolo de pruebas y la declaración de uso de IA están en la **[Wiki del repositorio](../../wiki)** (copia en [`wiki/`](wiki/Home.md)).
 
+> 🎬 **Video demostrativo:** [ver en Microsoft Stream (Teams)](https://unisabanaedu.sharepoint.com/:v:/s/Section_38906734699371/IQATLGUkAyPMQohUeUwel1CQAfkErWDD3ub2KPHNx16AHXY?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=tgNbTR) · [ver en GitHub](https://github.com/Juan100205/IOTPROYECTOFINAL3CORTE/blob/main/docs/video/WaterGuard_v9_video.mp4) (4:49).
+
 > 📝 **Actas de reunión en PDF:** se generan desde la wiki con `python codigo/scripts/actas_a_pdf.py` (requiere `pip install markdown` y Chrome o Edge) y quedan en [`docs/actas/`](docs/actas/).
 
 ---

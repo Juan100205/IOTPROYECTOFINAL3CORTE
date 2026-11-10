@@ -1,9 +1,10 @@
-# Material de referencia con derechos de autor (enunciado, rúbrica, papers).
+# Material de referencia con derechos de autor (enunciado, rúbrica, paper Terán-Aranda).
 # Se conserva solo en local; en la wiki se citan por DOI/URL.
-referencias/
+enunciado/
 *.pdf
-# Excepcion: actas de reunion exportadas (scripts/actas_a_pdf.py)
+# Excepcion: actas de reunion exportadas (codigo/scripts/actas_a_pdf.py)
 !docs/actas/*.pdf
+!diseno/**/*.pdf
 *.xlsx
 *.xls
 

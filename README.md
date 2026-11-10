@@ -7,7 +7,7 @@ Sistema IoT de monitoreo de disponibilidad y escasez de agua en puntos críticos
 
 > 🚧 **Tercer corte (Challenge #3) — en desarrollo.** Este repositorio parte de la línea base del segundo corte ([LeMarsito02/IOTPROYECTOFINAL2CORTE](https://github.com/LeMarsito02/IOTPROYECTOFINAL2CORTE)): firmware v7/v8, imágenes y la wiki completa, que se conserva en la carpeta [`wiki/`](wiki/Home.md) como punto de partida para la documentación del tercer corte.
 
-> 📝 **Actas de reunión en PDF:** se generan desde la wiki con `python scripts/actas_a_pdf.py` (requiere `pip install markdown` y Chrome o Edge) y quedan en [`docs/actas/`](docs/actas/).
+> 📝 **Actas de reunión en PDF:** se generan desde la wiki con `python codigo/scripts/actas_a_pdf.py` (requiere `pip install markdown` y Chrome o Edge) y quedan en [`docs/actas/`](docs/actas/).
 
 > 📖 **¿Quieres profundizar?** La documentación completa —restricciones de diseño, arquitectura, diagramas UML, esquemáticos, estándares aplicados, modelo de negocio, protocolo de pruebas, declaración de uso de IA y el análisis offline con K-Means— está en la **[Wiki del repositorio](../../wiki)**.
 
@@ -42,12 +42,12 @@ Se construyó un banco de pruebas capaz de simular ese ecosistema de forma contr
 - **Ventiladores**, para generar caudal de aire y simular viento dentro de la cámara.
 
 <p align="center">
-  <img src="BancodePruebas.jpeg" alt="Banco de pruebas: nevera de icopor con aluminio interno, ventilador y fuente de calor" width="48%">
-  <img src="BancodePruebas2.jpeg" alt="Vista frontal del banco de pruebas con el ventilador de refrigeración" width="48%">
+  <img src="assets/BancodePruebas.jpeg" alt="Banco de pruebas: nevera de icopor con aluminio interno, ventilador y fuente de calor" width="48%">
+  <img src="assets/BancodePruebas2.jpeg" alt="Vista frontal del banco de pruebas con el ventilador de refrigeración" width="48%">
 </p>
 <p align="center">
-  <img src="BancodePruebas (2).jpeg" alt="Interior de la nevera de icopor forrado en aluminio, con el bombillo halógeno" width="48%">
-  <img src="BancodePruebas (3).jpeg" alt="Detalle del bombillo halógeno y cableado dentro de la cámara de pruebas" width="48%">
+  <img src="assets/BancodePruebas (2).jpeg" alt="Interior de la nevera de icopor forrado en aluminio, con el bombillo halógeno" width="48%">
+  <img src="assets/BancodePruebas (3).jpeg" alt="Detalle del bombillo halógeno y cableado dentro de la cámara de pruebas" width="48%">
 </p>
 <p align="center"><em>Banco de pruebas — nevera de icopor forrada en aluminio para concentrar el calor, con bombillo halógeno como fuente de calor controlada y ventilador lateral para generar caudal de aire.</em></p>
 
@@ -58,13 +58,13 @@ La elección respondió a un balance entre **cobertura de las variables**, **cos
 Cada sensor se conectó y probó de forma individual antes de integrarlos en un mismo circuito y firmware. En la migración a ESP32 se adaptó el cableado a la lógica de 3.3 V (divisor de voltaje en el ECHO del HC-SR04, pull-ups a 3.3 V) y se evitaron los pines de arranque y el ADC2, que no funciona con WiFi activo.
 
 <p align="center">
-  <img src="Figura1_montaje.png" alt="Circuito conectado con el sensor de temperatura del agua en el recipiente de prueba" width="48%">
-  <img src="Figura2_montaje.png" alt="Circuito conectado con el sensor sumergido en el tanque de prueba" width="48%">
+  <img src="assets/Figura1_montaje.png" alt="Circuito conectado con el sensor de temperatura del agua en el recipiente de prueba" width="48%">
+  <img src="assets/Figura2_montaje.png" alt="Circuito conectado con el sensor sumergido en el tanque de prueba" width="48%">
 </p>
 <p align="center"><em>Figuras 1 y 2 — Montaje del primer corte (Arduino, pantalla OLED, LEDs indicadores y sensores) sobre los recipientes usados para simular el tanque de agua.</em></p>
 
 <p align="center">
-  <img src="Figura3_oled.png" alt="Lectura en la pantalla OLED durante la prueba" width="60%">
+  <img src="assets/Figura3_oled.png" alt="Lectura en la pantalla OLED durante la prueba" width="60%">
 </p>
 <p align="center"><em>Figura 3 — Pantalla OLED reportando en vivo el estado del sistema durante una corrida de prueba del primer corte.</em></p>
 
@@ -74,7 +74,7 @@ Cada sensor se conectó y probó de forma individual antes de integrarlos en un 
 La lógica de control se desarrolló mediante sesiones de **pair-programming con IA**, iterando sobre el código hasta ajustarlo a los requerimientos del reto y a los umbrales validados con datos del banco de pruebas. La declaración de uso de IA exigida por el curso (herramientas consultadas, instrucciones enviadas y cómo se validaron las respuestas) está en la **[Wiki](../../wiki)**.
 
 <p align="center">
-  <img src="Figura4_linea_tiempo.png" alt="Línea de tiempo de una prueba con perturbaciones deliberadas" width="80%">
+  <img src="assets/Figura4_linea_tiempo.png" alt="Línea de tiempo de una prueba con perturbaciones deliberadas" width="80%">
 </p>
 <p align="center"><em>Figura 4 — Análisis offline de una corrida de prueba con perturbaciones deliberadas (evento térmico y bloqueo de sensores), usada para validar y ajustar los umbrales de alerta/crítico del IRH.</em></p>
 
@@ -197,6 +197,16 @@ Cada anomalía estadística activa suma 5 puntos (máximo 4). Los índices se no
 
 ---
 
+## 📦 Carcasa y empaque (Challenge #3)
+
+El nodo se integra en una carcasa de **MDF de 3 mm cortada con láser** (≈ 150 × 110 × 56 mm), elegida por economía, tiempo de fabricación, facilidad de ensamble y menor impacto ambiental frente a la impresión 3D. Las plantillas de corte están en [`diseno/carcasa-mdf/`](diseno/carcasa-mdf/) y el diseño completo, en la [sección 2.8 de la Wiki](../../wiki/2.8.-Diseño-Mecánico-Carcasa-y-Empaque).
+
+<p align="center">
+  <img src="assets/carcasa-mdf-v2.jpg" alt="Carcasa WaterGuard V2.0 en MDF con OLED, panel solar, LEDs y botón" width="48%">
+  <img src="assets/plantilla-carcasa-v2.0.png" alt="Plantilla de corte láser v2.0" width="30%">
+</p>
+<p align="center"><em>Carcasa ensamblada (foto real mejorada con IA) y plantilla de corte láser v2.0.</em></p>
+
 ## 🛠️ Librerías necesarias
 Desde el Gestor de Librerías del Arduino IDE:
 - `U8g2`
@@ -210,11 +220,11 @@ El HX710B no necesita librería: su protocolo se implementa en `leerHX710B()`. L
 `WiFi`, `WebServer`, `ESPmDNS`, `Wire` y `mbedtls` vienen incluidas con el núcleo ESP32. Probado con los núcleos ESP32 2.0.x y 3.x.
 
 ## 💰 Costo del prototipo
-Un nodo completo cuesta alrededor de **COP 220.700**, según precios de tiendas colombianas (YoRobotics y Electronilab) consultados el 28-sep-2026. El desglose por componente está en el [Modelo de negocio de la Wiki](../../wiki/2.7.-Modelo-de-Negocio).
+La electrónica de un nodo cuesta alrededor de **COP 220.700**, según precios de tiendas colombianas (YoRobotics y Electronilab) consultados el 28-sep-2026. Con la carcasa en MDF (COP 35.000) y el empaque (COP 10.000), el producto empacado cuesta **≈ COP 265.700**. El desglose por componente está en el [Modelo de negocio de la Wiki](../../wiki/2.7.-Modelo-de-Negocio).
 
 ## ▶️ Uso
 1. Conecta los componentes según la tabla de pines.
-2. En [WaterGuard_v8.ino](WaterGuard_v8.ino), configura `WIFI_SSID` y `WIFI_PASS` con la red de la zona (debe ser de **2.4 GHz**), y define las credenciales del tablero (`USUARIO_TABLERO` y el hash SHA-256 de la clave en `HASH_CLAVE_TABLERO`). Para generar el hash:
+2. En [WaterGuard_v8.ino](codigo/WaterGuard_v8/WaterGuard_v8.ino), configura `WIFI_SSID` y `WIFI_PASS` con la red de la zona (debe ser de **2.4 GHz**), y define las credenciales del tablero (`USUARIO_TABLERO` y el hash SHA-256 de la clave en `HASH_CLAVE_TABLERO`). Para generar el hash:
    ```bash
    python -c "import hashlib;print(hashlib.sha256(b'TU_CLAVE').hexdigest())"
    ```
@@ -233,7 +243,7 @@ HX_CUENTAS_POR_KPA = (crudo_sumergido − crudo_aire) / (H × 0.0980665)
 ---
 
 ## 📚 Más información
-Este README es un resumen. El diseño completo, las justificaciones de cada umbral, los diagramas, el protocolo de pruebas con sus resultados y la declaración de uso de IA están en la **[Wiki de este repositorio](../../wiki)**. La versión del primer corte se conserva en [WaterGuard_v7.ino](WaterGuard_v7.ino).
+Este README es un resumen. El diseño completo, las justificaciones de cada umbral, los diagramas, el protocolo de pruebas con sus resultados y la declaración de uso de IA están en la **[Wiki de este repositorio](../../wiki)**. La versión del primer corte se conserva en [WaterGuard_v7.ino](codigo/WaterGuard_v7/WaterGuard_v7.ino).
 ---
 
 ## 📑 Referencias principales

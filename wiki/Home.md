@@ -20,6 +20,7 @@ Prototipo IoT de bajo costo basado en ESP32 que monitorea la disponibilidad de a
    - [2.5 Esquemático de hardware](2.5.-Esquemático-de-Hardware)
    - [2.6 Estándares de ingeniería](2.6.-Estándares-de-Ingeniería)
    - [2.7 Modelo de negocio](2.7.-Modelo-de-Negocio)
+   - [2.8 Diseño mecánico: carcasa y empaque](2.8.-Diseño-Mecánico-Carcasa-y-Empaque)
 3. [Configuración experimental, resultados y análisis](3.-Configuración-Experimental,-Resultados-y-Análisis)
 4. [Autoevaluación del protocolo de pruebas](4.-Autoevaluación-del-Protocolo-de-Pruebas)
 5. [Conclusiones, retos, trabajo futuro](5.-Conclusiones,-Retos-del-Desarrollo,-Trabajo-Futuro-y-Referencias)

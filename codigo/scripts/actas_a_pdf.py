@@ -14,7 +14,7 @@ Requisitos:
   Google Chrome o Microsoft Edge instalado (o la ruta en la variable CHROME_PATH)
 
 Uso (desde la raíz del repositorio):
-  python scripts/actas_a_pdf.py
+  python codigo/scripts/actas_a_pdf.py
 """
 
 import os
@@ -27,7 +27,7 @@ from pathlib import Path
 
 import markdown
 
-RAIZ = Path(__file__).resolve().parent.parent
+RAIZ = Path(__file__).resolve().parents[2]
 ORIGEN = RAIZ / "wiki" / "7.1.-Actas-de-Reunión-y-Evaluación.md"
 DESTINO = RAIZ / "docs" / "actas"
 WIKI_URL = "https://github.com/Juan100205/IOTPROYECTOFINAL3CORTE/wiki/"

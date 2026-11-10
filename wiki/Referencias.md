@@ -131,3 +131,9 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 [52] YoRobotics, "Sensor humedad temperatura DHT11 con PCB." [En línea]. Disponible: https://yorobotics.co/producto/sensor-humedad-temperatura-dht11-dht-11-con-pcb-arduino/. [Accedido: 28 Sep. 2026].
 
 [53] Electronilab, "Protoboard adhesiva MB102 830 puntos 16.5 cm x 5.5 cm," Bogotá, Colombia. [En línea]. Disponible: https://electronilab.co/tienda/protoboard-adhesiva-mb102-830-puntos-16-5cm-x-5-5cm/. [Accedido: 28 Sep. 2026].
+
+## Diseño mecánico (Challenge #3)
+
+[54] *Fibreboards — Specifications — Part 5: Requirements for dry process boards (MDF)*, EN 622-5:2009, European Committee for Standardization (CEN), Bruselas, Bélgica, 2009.
+
+[55] *Degrees of protection provided by enclosures (IP Code)*, IEC 60529:1989+AMD1:1999+AMD2:2013, International Electrotechnical Commission, Ginebra, Suiza, 2013.

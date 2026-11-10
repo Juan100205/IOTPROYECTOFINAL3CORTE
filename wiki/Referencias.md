@@ -149,3 +149,5 @@ La numeración es única para toda la wiki. Cada dato bibliográfico se verific�
 [59] J. Knapp, J. Zeratsky y B. Kowitz, *Sprint: How to Solve Big Problems and Test New Ideas in Just Five Days*. Nueva York, NY, EE. UU.: Simon & Schuster, 2016.
 
 [60] I. Fette y A. Melnikov, "The WebSocket protocol," RFC 6455, Dic. 2011, doi: 10.17487/RFC6455.
+
+[61] element14 Community, "How much is the Raspberry Pi 5?," Raspberry Pi 5 FAQ. [En línea]. Disponible: https://community.element14.com/products/raspberry-pi/f/raspberry-pi-5-faq/53723/how-much-does-the-raspberry-pi-5-cost. [Accedido: 10 Nov. 2026].

@@ -318,6 +318,8 @@ El HX710B no necesita librería: su protocolo se implementa en `leerHX710B()`. L
 ## 💰 Costo del prototipo
 La electrónica de un nodo cuesta alrededor de **COP 220.700**, según precios de tiendas colombianas (YoRobotics y Electronilab) consultados el 28-sep-2026. Con la carcasa en MDF (COP 35.000) y el empaque (COP 10.000), el producto empacado cuesta **≈ COP 265.700**. El desglose por componente está en el [Modelo de negocio de la Wiki](../../wiki/2.7.-Modelo-de-Negocio).
 
+En producción (lote de 50) el costo estimado baja a **≈ COP 249.600 por nodo**. La propuesta comercial es de COP 450.000 por nodo instalado, COP 850.000 por Gateway municipal y COP 150.000 al mes de suscripción a LeMarTek Cloud con IA. Los supuestos están en las secciones [2.7.4 y 2.7.5 de la Wiki](../../wiki/2.7.-Modelo-de-Negocio).
+
 ## ▶️ Uso
 1. Conecta los componentes según la tabla de pines (esquema completo en la [sección 2.5 de la Wiki](../../wiki/2.5.-Esquemático-de-Hardware)).
 2. En [WaterGuard_v9.ino](codigo/WaterGuard_v9/WaterGuard_v9.ino), configura `WIFI_SSID` y `WIFI_PASS` con la misma red del gateway (debe ser de **2.4 GHz**), las credenciales MQTT (`MQTT_USUARIO`, `MQTT_CLAVE`, iguales a las de `waterguard.env`) y las del tablero (`USUARIO_TABLERO` y el hash SHA-256 de la clave en `HASH_CLAVE_TABLERO`). Para generar el hash:
